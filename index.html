@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Dr. Rohit Pal Singh · Topological Data Analysis & Computational Science</title>
+    <title>Dr. Rohit P. Singh · Topological Data Analysis & Persistent Homology</title>
     <!-- Academic fonts & styling -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -159,6 +159,12 @@
             font-style: italic;
         }
 
+        .pub-metrics {
+            font-size: 0.75rem;
+            color: #4b5563;
+            margin-top: 0.2rem;
+        }
+
         .pub-links {
             margin-top: 0.5rem;
             display: flex;
@@ -250,6 +256,15 @@
             margin: 1rem 0;
         }
 
+        .citation-badge {
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 0.1rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
         .footer {
             margin-top: 4rem;
             text-align: center;
@@ -282,10 +297,10 @@
 </head>
 <body>
 <div class="container">
-    <!-- header with identity based on resume -->
+    <!-- header based on resume -->
     <div class="identity">
         <div class="name-title">
-            <h1>Rohit Pal Singh, PhD</h1>
+            <h1>Rohit P. Singh, PhD</h1>
             <span class="academic-title">Assistant Professor (Selection Grade) · Computer Science</span>
         </div>
         <div class="affiliation">
@@ -296,7 +311,7 @@
         </div>
     </div>
 
-    <!-- quick nav anchors -->
+    <!-- quick nav -->
     <div class="section-nav">
         <a href="#publications">📄 Publications</a>
         <a href="#research">🔬 Research</a>
@@ -305,124 +320,122 @@
     </div>
 
     <div class="two-col-grid">
-        <!-- main content: full academic profile -->
+        <!-- main content -->
         <main>
-            <!-- Publications -->
+            <!-- Publications - updated from Google Scholar data -->
             <section id="publications" class="section">
-                <h2>Peer-Reviewed Publications</h2>
+                <h2>Peer-Reviewed Publications & Thesis</h2>
                 
+                <!-- 2026 -->
+                <div class="pub-item">
+                    <div class="pub-title">Topological Study of β-Sparsified d-Uniform Hypergraph-Based Simplicial Complexes</div>
+                    <div class="pub-authors">RP Singh, NO Malott, R Rafeek, PA Wilsey</div>
+                    <div class="pub-venue">Mathematics, 2026</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 2 citations</span></div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
+                </div>
+
+                <!-- 2024 -->
                 <div class="pub-item">
                     <div class="pub-title">Resource Efficient Delaunay Triangulation for Higher Dimensional Topological Studies</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Data Mining (ICDM), 2024</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a><a href="#"><i class="fab fa-github"></i> Code</a></div>
+                    <div class="pub-authors">A Yadav, RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2024 IEEE International Conference on Data Mining Workshops (ICDMW), 341-348</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 2 citations</span></div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
                 <div class="pub-item">
                     <div class="pub-title">Piecewise Computation of Persistent Homology</div>
-                    <div class="pub-authors">Rohit Singh, P. A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Big Data (BigData), 2024</div>
+                    <div class="pub-authors">RP Singh, NO Malott, PA Wilsey</div>
+                    <div class="pub-venue">2024 IEEE International Conference on Big Data (BigData), 2721-2730</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 1 citation</span></div>
                     <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
                 <div class="pub-item">
                     <div class="pub-title">Constructing ε-Constrained Sparsified β<sup>s</sup>-Complexes using Space Partitioning Trees</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Data Mining (ICDM), 2024</div>
+                    <div class="pub-authors">RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2024 IEEE International Conference on Data Mining (ICDM), 845-850</div>
                     <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
-                <div class="pub-item">
-                    <div class="pub-title">Compact Boundary Matrix from a Polytopal Complex for Computing Persistent Homology</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Big Data (BigData), 2023</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
-
+                <!-- 2023 -->
                 <div class="pub-item">
                     <div class="pub-title">Generating High Dimensional Test Data for Topological Data Analysis</div>
-                    <div class="pub-authors">Rohit Singh, P. A. Wilsey</div>
-                    <div class="pub-venue">International Symposium on Benchmarking, Measuring and Optimization (Bench), 2023</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a></div>
-                </div>
-
-                <div class="pub-item">
-                    <div class="pub-title">Distributed Computation of Persistent Homology from Partitioned Big Data</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Cluster Computing (Cluster), 2021</div>
+                    <div class="pub-authors">RP Singh, NO Malott, B Sauerwein, N Mcgrogan, PA Wilsey</div>
+                    <div class="pub-venue">International Symposium on Benchmarking, Measuring and Optimization (Bench), 18-37, 2023</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 4 citations</span></div>
                     <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
+                <!-- 2022 -->
                 <div class="pub-item">
                     <div class="pub-title">Polytopal Complex Construction and Use in Persistent Homology</div>
-                    <div class="pub-authors">Rohit Singh, P. A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Data Mining (ICDM), 2022</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a></div>
+                    <div class="pub-authors">RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2022 IEEE International Conference on Data Mining Workshops (ICDMW), 634-641</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 8 citations</span></div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
                 <div class="pub-item">
                     <div class="pub-title">Persistence Homology of Proximity Hyper-Graphs for Higher Dimensional Big Data</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE International Conference on Big Data (BigData), 2022</div>
+                    <div class="pub-authors">RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2022 IEEE International Conference on Big Data (Big Data), 65-74</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 7 citations</span></div>
                     <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
+                <!-- 2021 -->
                 <div class="pub-item">
-                    <div class="pub-title">Topological Study of β-Sparsified d-Uniform Hypergraph Based Simplicial Complexes</div>
-                    <div class="pub-authors">Rohit Singh, P. A. Wilsey</div>
-                    <div class="pub-venue">ACM Transactions on Knowledge Discovery from Data (TKDD) — <strong>Under Review</strong></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-preprint"></i> Preprint</a></div>
+                    <div class="pub-title">Distributed Computation of Persistent Homology from Partitioned Big Data</div>
+                    <div class="pub-authors">NO Malott, RR Verma, RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2021 IEEE International Conference on Cluster Computing (CLUSTER), 344-354</div>
+                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 3 citations</span></div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
                 </div>
 
+                <!-- Compact Boundary Matrix (2023?) from previous list, adding for completeness -->
                 <div class="pub-item">
-                    <div class="pub-title">A Survey of Optimization Methods for Topological Complexes in the Computation of Persistent Homology</div>
-                    <div class="pub-authors">Rohit Singh, Philip A. Wilsey</div>
-                    <div class="pub-venue">IEEE Transactions on Knowledge and Data Engineering (TKDE) — <strong>In Progress</strong></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-scroll"></i> Draft available</a></div>
+                    <div class="pub-title">Compact Boundary Matrix from a Polytopal Complex for Computing Persistent Homology</div>
+                    <div class="pub-authors">RP Singh, PA Wilsey</div>
+                    <div class="pub-venue">2023 IEEE International Conference on Big Data (BigData), 2023</div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
+                </div>
+
+                <!-- PhD Dissertation -->
+                <div class="pub-item">
+                    <div class="pub-title">Optimizing Topological Spaces for Scalable Persistent Homology Computations</div>
+                    <div class="pub-authors">RP Singh</div>
+                    <div class="pub-venue">PhD Dissertation, University of Cincinnati, 2024</div>
+                    <div class="pub-links"><a href="#"><i class="fas fa-graduation-cap"></i> ProQuest</a><a href="#"><i class="fas fa-archive"></i> OhioLINK</a></div>
                 </div>
             </section>
 
-            <!-- Research Experience -->
+            <!-- Research Experience (unchanged from resume, concise) -->
             <section id="research" class="section">
                 <h2>Research Experience</h2>
                 <div class="exp-item">
                     <div class="pub-title">Graduate Research Assistant · University of Cincinnati</div>
                     <div class="pub-venue">Aug 2019 – Dec 2024 | Advisor: Prof. Philip A. Wilsey</div>
                     <ul>
-                        <li>Distributed computation of persistent homology, sparsified topological spaces, and optimizing complex construction for high-dimensional data.</li>
+                        <li>Distributed computation of persistent homology, sparsified topological spaces, polytopal complexes.</li>
                         <li>Optimized Delaunay triangulation and piecewise persistent homology computation.</li>
-                        <li>Developed polytopal complexes as a succinct representation of topological spaces.</li>
                         <li>Generated high-dimensional test data for benchmarking topological data analysis pipelines.</li>
                     </ul>
                 </div>
-
                 <div class="exp-item">
-                    <div class="pub-title">Research Assistant · Xu Lab, Cincinnati Children's Hospital (CCHMC)</div>
-                    <div class="pub-venue">Jan 2021 – Jan 2022 | Department of Neonatology, Perinatal and Pulmonary Biology</div>
-                    <ul>
-                        <li>Single-cell RNA-seq analysis for Alveolar Capillary Dysplasia (ACD) and mouse lung development: quality control, clustering, trajectory inference, driver gene identification.</li>
-                        <li>Applied MELD, ScVelo, CellRank, PHATE, Scanpy (Python) and Seurat, Monocle (R).</li>
-                        <li>Pathway analysis using IPA, ToppGene, GO, STEM and DREM.</li>
-                    </ul>
+                    <div class="pub-title">Research Assistant · Xu Lab, Cincinnati Children's Hospital</div>
+                    <div class="pub-venue">Jan 2021 – Jan 2022 | Single-cell RNA-seq analysis</div>
+                    <ul><li>Applied MELD, ScVelo, CellRank, Seurat, Monocle for ACD and mouse lung development.</li></ul>
                 </div>
-
                 <div class="exp-item">
-                    <div class="pub-title">Research Assistant · Simulation Centre, Procter & Gamble (UC)</div>
+                    <div class="pub-title">Research Assistant · Procter & Gamble Simulation Centre</div>
                     <div class="pub-venue">Fall 2020 & 2023 | Advisor: Mark Maupin</div>
-                    <ul>
-                        <li>Developed R/Shiny applications for “Self Preserving Formulations”: predictive models for microbial growth/kill rates under varying pH, temperature, surfactants.</li>
-                        <li>Designed molecular formula descriptors based on compound properties.</li>
-                        <li>Image processing for fem care project (optimal pad shape analysis).</li>
-                    </ul>
+                    <ul><li>Developed R/Shiny predictive models for microbial growth; molecular descriptors; image processing.</li></ul>
                 </div>
-
                 <div class="exp-item">
                     <div class="pub-title">Faculty Summer Research Fellow · IIT Delhi</div>
-                    <div class="pub-venue">Jun–Jul 2017 | High Performance Computation (Prof. Subodh Kumar)</div>
-                    <ul>
-                        <li>GPU (CUDA), OpenMP, MPI implementations for molecular simulation trajectories.</li>
-                        <li>Radial frequency distribution to find molecular correlations.</li>
-                    </ul>
+                    <div class="pub-venue">Jun–Jul 2017 | High Performance Computing (CUDA, OpenMP, MPI)</div>
                 </div>
             </section>
 
@@ -441,72 +454,53 @@
                 </div>
                 <div class="teaching-item">
                     <div class="pub-title">Graduate Teaching Assistant · University of Cincinnati</div>
-                    <div class="pub-venue">2019–2023 (multiple semesters)</div>
-                    <ul><li>Programming for ECE/CS (EECE1080C), Operating Systems, guest lectures, ZyBooks course delivery.</li></ul>
+                    <div class="pub-venue">2019–2023</div>
+                    <ul><li>Programming for ECE/CS, Operating Systems, ZyBooks course delivery.</li></ul>
                 </div>
                 <div class="teaching-item">
-                    <div class="pub-title">Lecturer · JIIT, Noida, India</div>
+                    <div class="pub-title">Lecturer · JIIT, Noida</div>
                     <div class="pub-venue">Prior to 2019</div>
-                    <ul><li>Concurrent Programming, Geometric Combinatorics, Design of Algorithms, Operating Systems, Data Structures, Advanced Programming.</li></ul>
+                    <ul><li>Concurrent Programming, Geometric Combinatorics, Design of Algorithms, Operating Systems.</li></ul>
                 </div>
             </section>
 
             <!-- Awards & Honors -->
             <section id="awards" class="section">
                 <h2>Awards & Honors</h2>
-                <div class="award-item">
-                    <div class="pub-title">IRiS Fellowship</div>
-                    <div class="pub-venue">College of Arts and Sciences, University of Cincinnati (2023–24)</div>
-                </div>
-                <div class="award-item">
-                    <div class="pub-title">Herbold Fellowship</div>
-                    <div class="pub-venue">University of Cincinnati (2021–22)</div>
-                </div>
-                <div class="award-item">
-                    <div class="pub-title">NSF Award Contribution</div>
-                    <div class="pub-venue">NSF Funded Project "SPAL3D" – Type System for 3D Spatial Databases</div>
-                </div>
-                <div class="award-item">
-                    <div class="pub-title">Achievement Award</div>
-                    <div class="pub-venue">University of Florida, Gainesville</div>
-                </div>
-                <div class="award-item">
-                    <div class="pub-title">Ranked 31st (Senior Secondary) & 106th (Matriculation)</div>
-                    <div class="pub-venue">Himachal Pradesh Board of School Education</div>
-                </div>
+                <div class="award-item"><div class="pub-title">IRiS Fellowship</div><div class="pub-venue">College of Arts and Sciences, UC (2023–24)</div></div>
+                <div class="award-item"><div class="pub-title">Herbold Fellowship</div><div class="pub-venue">University of Cincinnati (2021–22)</div></div>
+                <div class="award-item"><div class="pub-title">NSF Award Contribution</div><div class="pub-venue">SPAL3D – Type System for 3D Spatial Databases</div></div>
+                <div class="award-item"><div class="pub-title">Achievement Award</div><div class="pub-venue">University of Florida</div></div>
             </section>
         </main>
 
-        <!-- right sidebar: profile, interests, skills, service -->
+        <!-- right sidebar -->
         <aside>
             <div class="sidebar-card">
                 <h3>Education</h3>
-                <p><strong>PhD Computer Science</strong><br>University of Cincinnati, 2019–2024<br>GPA 3.81/4<br>Certificate in Statistical Science</p>
+                <p><strong>PhD Computer Science</strong><br>University of Cincinnati, 2019–2024<br>GPA 3.81/4<br>Certificate: Statistical Science & Quantum Computing</p>
                 <div class="divider-light"></div>
                 <p><strong>MS Computer Science</strong><br>University of Florida, 2011–2013<br>GPA 3.67/4</p>
                 <div class="divider-light"></div>
-                <p><strong>B.Tech CSE</strong><br>Jaypee University of Information Technology, India<br>GPA 8.3/10</p>
+                <p><strong>B.Tech CSE</strong><br>Jaypee University of Information Technology</p>
             </div>
 
             <div class="sidebar-card">
                 <h3>Research Focus</h3>
-                <div class="interest-tag">Topological Data Analysis</div>
                 <div class="interest-tag">Persistent Homology</div>
+                <div class="interest-tag">Topological Data Analysis</div>
+                <div class="interest-tag">High-Dimensional Data</div>
                 <div class="interest-tag">Parallel & Distributed Computing</div>
                 <div class="interest-tag">Computational Biology</div>
-                <div class="interest-tag">Spatial Databases</div>
-                <div class="interest-tag">High-Dimensional Data</div>
-                <div class="interest-tag">GPU/CUDA Programming</div>
-                <div class="interest-tag">Machine Learning</div>
+                <div class="interest-tag">GPU/CUDA</div>
             </div>
 
             <div class="sidebar-card">
                 <h3>Technical Skills</h3>
                 <div class="skill-list">
                     <span class="skill-badge">C++/C</span><span class="skill-badge">Python</span><span class="skill-badge">R/R-Shiny</span>
-                    <span class="skill-badge">Java</span><span class="skill-badge">CUDA</span><span class="skill-badge">OpenMP/MPI</span>
-                    <span class="skill-badge">PySpark</span><span class="skill-badge">SQL</span><span class="skill-badge">Linux</span>
-                    <span class="skill-badge">Git/GitHub</span><span class="skill-badge">Scanpy/Seurat</span><span class="skill-badge">TensorFlow</span>
+                    <span class="skill-badge">CUDA</span><span class="skill-badge">OpenMP/MPI</span><span class="skill-badge">PySpark</span>
+                    <span class="skill-badge">Scanpy/Seurat</span><span class="skill-badge">Linux</span><span class="skill-badge">Git</span>
                 </div>
                 <div class="divider-light"></div>
                 <h3>Reviewer Service</h3>
@@ -517,42 +511,38 @@
                 <h3>Selected Projects</h3>
                 <ul style="font-size:0.8rem; margin-left:1rem;">
                     <li>Compute-intensive VR framework (OpenMP/MPI/CUDA)</li>
-                    <li>Moving Object Database (MODB) for 3D topology change</li>
+                    <li>Moving Object Database for 3D topology change</li>
                     <li>Transfer learning for time series (ARIMA, R, Python)</li>
-                    <li>CNN interpretability with GradCAM & uncertainty quantification</li>
-                    <li>Downstream analysis for lung carcinomas (single-cell RNA-seq)</li>
+                    <li>CNN interpretability with GradCAM & uncertainty</li>
+                    <li>Single-cell RNA-seq downstream analysis</li>
                 </ul>
             </div>
 
             <div class="sidebar-card">
                 <h3>Community & Service</h3>
-                <p><i class="fas fa-chalkboard-teacher"></i> Committee Head, Joint Engineering Co-op Institute (JCI)</p>
+                <p><i class="fas fa-chalkboard-teacher"></i> Committee Head, Joint Engineering Co-op Institute</p>
                 <p><i class="fas fa-laptop-code"></i> Technical team, makeup.io hackathon (IEEE)</p>
                 <p><i class="fas fa-microphone-alt"></i> Guest talk: "Data Science Beyond Clustering"</p>
-                <p><i class="fas fa-heart"></i> Organizer, UC Bhakti Yoga Club</p>
             </div>
         </aside>
     </div>
 
     <div class="footer">
-        <span>© 2025 Dr. Rohit Singh — All rights reserved. | Last updated April 2026</span><br>
-        <span style="font-size: 0.7rem;">GitHub: rohitpalsingh | Google Scholar · ORCID: 0000-0003-2872-1232 </span>
+        <span>© 2025 Dr. Rohit P. Singh — All rights reserved. | Last updated April 2026</span><br>
+        <span style="font-size: 0.7rem;">Based on Google Scholar profile | Citations: 27+ (since 2021)</span>
     </div>
 </div>
 
-<!-- smooth anchor behavior -->
+<!-- smooth anchor & placeholder links -->
 <script>
     document.querySelectorAll('.section-nav a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const target = document.getElementById(targetId);
-            if(target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
-    // optional placeholder links - keep them inert for demo
     document.querySelectorAll('.pub-links a').forEach(link => {
         if(link.getAttribute('href') === '#') {
             link.addEventListener('click', (e) => e.preventDefault());
