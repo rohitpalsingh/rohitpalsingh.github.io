@@ -1,553 +1,1186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Dr. Rohit P. Singh · Topological Data Analysis & Persistent Homology</title>
-    <!-- Academic fonts & styling -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Rohit P. Singh · Topological Data Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --bg:        #0b0f14;
+      --surface:   #121820;
+      --card:      #161d27;
+      --border:    #1e2d3d;
+      --teal:      #2dd4bf;
+      --teal-dim:  #1a9e8c;
+      --gold:      #f0c060;
+      --cream:     #e8dfc8;
+      --muted:     #6b7e90;
+      --text:      #d4dce8;
+      --white:     #f0f4f8;
+    }
 
-        body {
-            background: #fafaf8;
-            font-family: 'Inter', sans-serif;
-            color: #1e2a2e;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2rem 2rem 4rem;
-        }
+    html { scroll-behavior: smooth; }
 
-        /* identity header */
-        .identity {
-            border-bottom: 2px solid #e2e8f0;
-            margin-bottom: 2rem;
-            padding-bottom: 1.8rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .name-title h1 {
-            font-family: 'Merriweather', serif;
-            font-size: 2.6rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: #0f172a;
-            margin-bottom: 0.3rem;
-        }
+    /* ── CANVAS BACKGROUND ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.18;
+    }
 
-        .name-title .academic-title {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1e5a58;
-            background: #e6f4f1;
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            letter-spacing: 0.3px;
-        }
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; }
 
-        .affiliation {
-            text-align: right;
-            font-size: 0.9rem;
-            color: #334155;
-            border-left: 2px solid #cbd5e1;
-            padding-left: 1.2rem;
-        }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 0;
+      position: relative;
+    }
 
-        .affiliation p {
-            margin: 0.2rem 0;
-        }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    }
 
-        .affiliation i {
-            margin-right: 6px;
-            color: #1e5a58;
-            width: 18px;
-        }
+    .hero-left {
+      padding: 80px 60px 80px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
 
-        /* section navigation */
-        .section-nav {
-            margin: 1rem 0 2rem 0;
-            border-bottom: 1px solid #e9edf2;
-            padding-bottom: 0.75rem;
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
+    .hero-left::before {
+      content: 'TDA';
+      position: absolute;
+      top: 60px; right: -20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 160px;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+      pointer-events: none;
+      letter-spacing: -8px;
+      z-index: 0;
+    }
 
-        .section-nav a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #1e2a2e;
-            font-size: 0.95rem;
-            transition: 0.2s;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 0.4rem;
-        }
+    .hero-content { position: relative; z-index: 1; }
 
-        .section-nav a:hover {
-            border-bottom-color: #1e5a58;
-            color: #0f3b38;
-        }
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px; height: 1px;
+      background: var(--teal);
+    }
 
-        /* two-column layout */
-        .two-col-grid {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 3rem;
-            margin-top: 1rem;
-        }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+    .hero h1 span { color: var(--teal); font-style: italic; }
 
-        /* main content sections */
-        .section {
-            margin-bottom: 2.5rem;
-        }
+    .hero-role {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+    }
 
-        .section h2 {
-            font-family: 'Merriweather', serif;
-            font-weight: 600;
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
-            letter-spacing: -0.2px;
-            border-left: 4px solid #1e5a58;
-            padding-left: 1rem;
-        }
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--cream);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-left: 1.2rem;
+      border-left: 2px solid var(--teal-dim);
+    }
 
-        .section h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1rem 0 0.5rem 0;
-            color: #0f172a;
-        }
+    .contact-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-bottom: 2.5rem;
+    }
 
-        .pub-item, .exp-item, .teaching-item, .award-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #edf2f7;
-        }
+    .chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .chip i { color: var(--teal); font-size: 0.7rem; }
+    .chip:hover { border-color: var(--teal); color: var(--white); }
 
-        .pub-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #0f172a;
-            margin-bottom: 0.3rem;
-        }
+    .stat-row {
+      display: flex;
+      gap: 2.5rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--teal); }
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 3px;
+    }
 
-        .pub-authors, .exp-role, .teaching-role {
-            font-size: 0.85rem;
-            color: #2d3e50;
-            margin-bottom: 0.2rem;
-        }
+    /* ── HERO RIGHT (PHOTO PANEL) ── */
+    .hero-right {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .pub-venue {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #1e5a58;
-            margin-bottom: 0.4rem;
-            font-style: italic;
-        }
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45,212,191,0.08) 0%, transparent 70%);
+    }
 
-        .pub-metrics {
-            font-size: 0.75rem;
-            color: #4b5563;
-            margin-top: 0.2rem;
-        }
+    .photo-frame {
+      position: relative;
+      width: 220px; height: 220px;
+      margin-bottom: 2rem;
+    }
 
-        .pub-links {
-            margin-top: 0.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(var(--teal), var(--gold), var(--teal));
+      animation: spin 8s linear infinite;
+    }
 
-        .pub-links a, .link-icon {
-            font-size: 0.75rem;
-            text-decoration: none;
-            color: #3b82b6;
-            font-weight: 500;
-            border: 1px solid #cbd5e1;
-            padding: 0.2rem 0.7rem;
-            border-radius: 24px;
-            background: #ffffff;
-            transition: 0.1s;
-        }
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
 
-        .pub-links a i, .link-icon i {
-            margin-right: 4px;
-        }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .pub-links a:hover {
-            background: #f1f5f9;
-            border-color: #1e5a58;
-            color: #14532d;
-        }
+    .photo-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 1;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .exp-item ul, .teaching-item ul {
-            margin-left: 1.2rem;
-            font-size: 0.85rem;
-            color: #334155;
-        }
+    /* Default avatar SVG shown when no photo is set */
+    .photo-inner svg {
+      width: 110px;
+      height: 110px;
+      opacity: 0.45;
+    }
 
-        .exp-item li {
-            margin-bottom: 0.3rem;
-        }
+    /* When a real photo is loaded it replaces the SVG */
+    .photo-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
 
-        /* sidebar cards */
-        .sidebar-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 1.4rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-            border: 1px solid #eef2f6;
-        }
+    .photo-upload-hint {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(11,15,20,0.72);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      z-index: 2;
+      font-size: 0.65rem;
+      color: var(--teal);
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .photo-inner:hover .photo-upload-hint { opacity: 1; }
+    .photo-upload-hint i { font-size: 1.3rem; }
 
-        .sidebar-card h3 {
-            font-family: 'Merriweather', serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid #1e5a58;
-            padding-left: 0.6rem;
-        }
+    .sidebar-info {
+      text-align: center;
+      width: 100%;
+    }
+    .sidebar-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+    .sidebar-info .dept {
+      font-size: 0.75rem;
+      color: var(--teal);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
 
-        .interest-tag {
-            background: #f1f5f9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1e4a47;
-            display: inline-block;
-            margin: 0.2rem 0.2rem;
-        }
+    .edu-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.75rem;
+      text-align: left;
+      width: 100%;
+    }
+    .edu-block .degree {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .edu-block .school {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .edu-block .gpa {
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-top: 3px;
+    }
 
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
+    /* ── NAV BAR ── */
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 15, 20, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 80px;
+    }
 
-        .skill-badge {
-            background: #eef2ff;
-            color: #1e3a8a;
-            padding: 0.2rem 0.7rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      padding: 1rem 2rem 1rem 0;
+      border-right: 1px solid var(--border);
+      margin-right: 2rem;
+      letter-spacing: 1px;
+    }
 
-        .divider-light {
-            height: 1px;
-            background: #e2edf2;
-            margin: 1rem 0;
-        }
+    .main-nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 1.2rem 1.2rem;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .main-nav a:hover {
+      color: var(--white);
+      border-bottom-color: var(--teal);
+    }
 
-        .citation-badge {
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 0.1rem 0.5rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-            display: inline-block;
-        }
+    /* ── CONTENT SECTIONS ── */
+    .content-wrap {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 0;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
 
-        .footer {
-            margin-top: 4rem;
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #e2e8f0;
-            font-size: 0.8rem;
-            color: #5b6e8c;
-        }
+    .main-col { padding: 60px 60px 60px 80px; border-right: 1px solid var(--border); }
+    .side-col { padding: 60px 40px; }
 
-        @media (max-width: 780px) {
-            .two-col-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            .identity {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            .affiliation {
-                text-align: left;
-                border-left: none;
-                padding-left: 0;
-            }
-            .container {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+    .section { margin-bottom: 64px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .section-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--teal);
+      border: 1px solid var(--teal-dim);
+      border-radius: 20px;
+      padding: 0.15rem 0.6rem;
+    }
+
+    /* ── PUBLICATION CARDS ── */
+    .pub-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.25s, transform 0.25s;
+      overflow: hidden;
+    }
+    .pub-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--teal-dim);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .pub-card:hover {
+      border-color: var(--teal-dim);
+      transform: translateX(4px);
+    }
+    .pub-card:hover::before { opacity: 1; }
+
+    .pub-year-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--teal);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pub-year-badge::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .pub-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.45;
+      margin-bottom: 0.45rem;
+    }
+
+    .pub-authors {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .pub-authors strong { color: var(--cream); }
+
+    .pub-venue {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--teal-dim);
+      margin-bottom: 0.7rem;
+    }
+
+    .pub-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .cite-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(45,212,191,0.08);
+      border: 1px solid rgba(45,212,191,0.2);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.68rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--teal);
+    }
+
+    .pub-btn {
+      text-decoration: none;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.7rem;
+      transition: color 0.15s, border-color 0.15s;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    .pub-btn:hover { color: var(--teal); border-color: var(--teal-dim); }
+
+    /* ── TIMELINE (Research / Teaching) ── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 8px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--teal-dim), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 8px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--teal);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--teal-dim);
+    }
+
+    .tl-header {
+      margin-bottom: 0.6rem;
+    }
+    .tl-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .tl-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--teal-dim);
+    }
+    .tl-body {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .tl-body li { margin-bottom: 0.3rem; }
+
+    /* ── AWARDS ── */
+    .award-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .award-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .award-card:hover { border-color: var(--gold); }
+    .award-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(240,192,96,0.12);
+      border: 1px solid rgba(240,192,96,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .award-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .award-org {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── SIDEBAR CARDS ── */
+    .side-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .side-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .side-card h3::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(45,212,191,0.07);
+      border: 1px solid rgba(45,212,191,0.18);
+      color: var(--teal);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      margin: 0.2rem;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .skill-pill {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      margin: 0.2rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .reviewer-item {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reviewer-item:last-child { border-bottom: none; }
+    .reviewer-item::before {
+      content: '▸';
+      color: var(--teal-dim);
+      font-size: 0.6rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    footer .teal { color: var(--teal); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 60px 30px; }
+      .hero-left::before { display: none; }
+      .content-wrap { grid-template-columns: 1fr; }
+      .main-col { padding: 40px 30px; border-right: none; }
+      .side-col { padding: 20px 30px; }
+      .main-nav { padding: 0 30px; }
+      .award-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 30px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <!-- header based on resume -->
-    <div class="identity">
-        <div class="name-title">
-            <h1>Rohit P. Singh, PhD</h1>
-            <span class="academic-title">Assistant Professor (Selection Grade) · Computer Science</span>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-content">
+        <div class="eyebrow">Researcher · Educator · Topologist</div>
+        <h1>Rohit P. <span>Singh,</span><br>PhD</h1>
+        <p class="hero-role">Assistant Professor (Selection Grade) · Computer Science · UPES Dehradun</p>
+        <p class="hero-tagline">
+          Exploring the shape of high-dimensional data through persistent homology,
+          sparsified complexes, and distributed topological computation.
+        </p>
+        <div class="contact-chips">
+          <div class="chip"><i class="fas fa-university"></i> UPES, Dehradun</div>
+          <div class="chip"><i class="far fa-envelope"></i> rohit.singh@ddn.upes.ac.in</div>
+          <div class="chip"><i class="fas fa-phone-alt"></i> +91 980 505 8832</div>
         </div>
-        <div class="affiliation">
-            <p><i class="fas fa-university"></i> UPES, Dehradun · Department of Computer Science</p>
-            <p><i class="fas fa-map-marker-alt"></i> Dehradun, India</p>
-            <p><i class="far fa-envelope"></i> rohit.singh@ddn.upes.ac.in</p>
-            <p><i class="fas fa-phone-alt"></i> +91 980 505 8832</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-num">27<span>+</span></div>
+            <div class="stat-label">Citations</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">9</div>
+            <div class="stat-label">Publications</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">5<span>+</span></div>
+            <div class="stat-label">Years Research</div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- quick nav -->
-    <div class="section-nav">
-        <a href="#publications">📄 Publications</a>
-        <a href="#research">🔬 Research</a>
-        <a href="#teaching">📖 Teaching</a>
-        <a href="#awards">🏅 Awards</a>
+    <div class="hero-right">
+      <div class="photo-frame">
+        <div class="photo-inner" id="photoInner">
+          <!-- Default avatar (silhouette) -->
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <circle cx="50" cy="38" r="22" fill="#2dd4bf" opacity="0.6"/>
+            <ellipse cx="50" cy="90" rx="34" ry="22" fill="#2dd4bf" opacity="0.4"/>
+          </svg>
+          <div class="photo-upload-hint" onclick="document.getElementById('photoInput').click()">
+            <i class="fas fa-camera"></i>
+            Upload Photo
+          </div>
+        </div>
+      </div>
+      <input type="file" id="photoInput" accept="image/rps" style="display:none">
+
+      <div class="sidebar-info">
+        <h2>Dr. Rohit P. Singh</h2>
+        <div class="dept">Topological Data Analysis</div>
+
+        <div class="edu-block">
+          <div class="degree">PhD Computer Science</div>
+          <div class="school">University of Cincinnati, 2019–2024</div>
+          <div class="gpa">GPA 3.81 · Statistical Science & Quantum Computing</div>
+        </div>
+        <div class="edu-block">
+          <div class="degree">MS Computer Science</div>
+          <div class="school">University of Florida, 2011–2013</div>
+          <div class="gpa">GPA 3.67</div>
+        </div>
+        <div class="edu-block">
+          <div class="degree">B.Tech CSE</div>
+          <div class="school">Jaypee University of Information Technology</div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="two-col-grid">
-        <!-- main content -->
-        <main>
-            <!-- Publications - updated from Google Scholar data -->
-            <section id="publications" class="section">
-                <h2>Peer-Reviewed Publications & Thesis</h2>
-                
-                <!-- 2026 -->
-                <div class="pub-item">
-                    <div class="pub-title">Topological Study of β-Sparsified d-Uniform Hypergraph-Based Simplicial Complexes</div>
-                    <div class="pub-authors">RP Singh, NO Malott, R Rafeek, PA Wilsey</div>
-                    <div class="pub-venue">Mathematics, 2026</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 2 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+  <!-- ══ STICKY NAV ══ -->
+  <nav class="main-nav">
+    <div class="nav-logo">RPS.AC</div>
+    <a href="#publications">Publications</a>
+    <a href="#research">Research</a>
+    <a href="#teaching">Teaching</a>
+    <a href="#awards">Awards</a>
+  </nav>
 
-                <!-- 2024 -->
-                <div class="pub-item">
-                    <div class="pub-title">Resource Efficient Delaunay Triangulation for Higher Dimensional Topological Studies</div>
-                    <div class="pub-authors">A Yadav, RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2024 IEEE International Conference on Data Mining Workshops (ICDMW), 341-348</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 2 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+  <!-- ══ BODY ══ -->
+  <div class="content-wrap">
+    <main class="main-col">
 
-                <div class="pub-item">
-                    <div class="pub-title">Piecewise Computation of Persistent Homology</div>
-                    <div class="pub-authors">RP Singh, NO Malott, PA Wilsey</div>
-                    <div class="pub-venue">2024 IEEE International Conference on Big Data (BigData), 2721-2730</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 1 citation</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+      <!-- PUBLICATIONS -->
+      <section id="publications" class="section">
+        <div class="section-header">
+          <h2>Publications</h2>
+          <span class="section-count">9 works</span>
+        </div>
 
-                <div class="pub-item">
-                    <div class="pub-title">Constructing ε-Constrained Sparsified β<sup>s</sup>-Complexes using Space Partitioning Trees</div>
-                    <div class="pub-authors">RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2024 IEEE International Conference on Data Mining (ICDM), 845-850</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <!-- 2026 -->
+        <div class="pub-card">
+          <div class="pub-year-badge">2026</div>
+          <div class="pub-title">Topological Study of β-Sparsified d-Uniform Hypergraph-Based Simplicial Complexes</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, NO Malott, R Rafeek, PA Wilsey</div>
+          <div class="pub-venue">Mathematics, 2026</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 2 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <!-- 2023 -->
-                <div class="pub-item">
-                    <div class="pub-title">Generating High Dimensional Test Data for Topological Data Analysis</div>
-                    <div class="pub-authors">RP Singh, NO Malott, B Sauerwein, N Mcgrogan, PA Wilsey</div>
-                    <div class="pub-venue">International Symposium on Benchmarking, Measuring and Optimization (Bench), 18-37, 2023</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 4 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <!-- 2024 -->
+        <div class="pub-card">
+          <div class="pub-year-badge">2024</div>
+          <div class="pub-title">Resource Efficient Delaunay Triangulation for Higher Dimensional Topological Studies</div>
+          <div class="pub-authors">A Yadav, <strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE ICDMW 2024, pp. 341–348</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 2 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <!-- 2022 -->
-                <div class="pub-item">
-                    <div class="pub-title">Polytopal Complex Construction and Use in Persistent Homology</div>
-                    <div class="pub-authors">RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2022 IEEE International Conference on Data Mining Workshops (ICDMW), 634-641</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 8 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <div class="pub-card">
+          <div class="pub-year-badge">2024</div>
+          <div class="pub-title">Piecewise Computation of Persistent Homology</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, NO Malott, PA Wilsey</div>
+          <div class="pub-venue">IEEE BigData 2024, pp. 2721–2730</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 1 citation</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <div class="pub-item">
-                    <div class="pub-title">Persistence Homology of Proximity Hyper-Graphs for Higher Dimensional Big Data</div>
-                    <div class="pub-authors">RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2022 IEEE International Conference on Big Data (Big Data), 65-74</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 7 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <div class="pub-card">
+          <div class="pub-year-badge">2024</div>
+          <div class="pub-title">Constructing ε-Constrained Sparsified β<sup>s</sup>-Complexes using Space Partitioning Trees</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE ICDM 2024, pp. 845–850</div>
+          <div class="pub-footer">
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <!-- 2021 -->
-                <div class="pub-item">
-                    <div class="pub-title">Distributed Computation of Persistent Homology from Partitioned Big Data</div>
-                    <div class="pub-authors">NO Malott, RR Verma, RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2021 IEEE International Conference on Cluster Computing (CLUSTER), 344-354</div>
-                    <div class="pub-metrics"><span class="citation-badge"><i class="fas fa-quote-right"></i> 3 citations</span></div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <!-- 2023 -->
+        <div class="pub-card">
+          <div class="pub-year-badge">2023</div>
+          <div class="pub-title">Generating High Dimensional Test Data for Topological Data Analysis</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, NO Malott, B Sauerwein, N Mcgrogan, PA Wilsey</div>
+          <div class="pub-venue">Int. Symposium on Benchmarking, Measuring and Optimization (Bench), pp. 18–37</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 4 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <!-- Compact Boundary Matrix (2023?) from previous list, adding for completeness -->
-                <div class="pub-item">
-                    <div class="pub-title">Compact Boundary Matrix from a Polytopal Complex for Computing Persistent Homology</div>
-                    <div class="pub-authors">RP Singh, PA Wilsey</div>
-                    <div class="pub-venue">2023 IEEE International Conference on Big Data (BigData), 2023</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-file-pdf"></i> PDF</a><a href="#"><i class="fas fa-external-link-alt"></i> DOI</a></div>
-                </div>
+        <div class="pub-card">
+          <div class="pub-year-badge">2023</div>
+          <div class="pub-title">Compact Boundary Matrix from a Polytopal Complex for Computing Persistent Homology</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE BigData 2023</div>
+          <div class="pub-footer">
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-                <!-- PhD Dissertation -->
-                <div class="pub-item">
-                    <div class="pub-title">Optimizing Topological Spaces for Scalable Persistent Homology Computations</div>
-                    <div class="pub-authors">RP Singh</div>
-                    <div class="pub-venue">PhD Dissertation, University of Cincinnati, 2024</div>
-                    <div class="pub-links"><a href="#"><i class="fas fa-graduation-cap"></i> ProQuest</a><a href="#"><i class="fas fa-archive"></i> OhioLINK</a></div>
-                </div>
-            </section>
+        <!-- 2022 -->
+        <div class="pub-card">
+          <div class="pub-year-badge">2022</div>
+          <div class="pub-title">Polytopal Complex Construction and Use in Persistent Homology</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE ICDMW 2022, pp. 634–641</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 8 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-            <!-- Research Experience (unchanged from resume, concise) -->
-            <section id="research" class="section">
-                <h2>Research Experience</h2>
-                <div class="exp-item">
-                    <div class="pub-title">Graduate Research Assistant · University of Cincinnati</div>
-                    <div class="pub-venue">Aug 2019 – Dec 2024 | Advisor: Prof. Philip A. Wilsey</div>
-                    <ul>
-                        <li>Distributed computation of persistent homology, sparsified topological spaces, polytopal complexes.</li>
-                        <li>Optimized Delaunay triangulation and piecewise persistent homology computation.</li>
-                        <li>Generated high-dimensional test data for benchmarking topological data analysis pipelines.</li>
-                    </ul>
-                </div>
-                <div class="exp-item">
-                    <div class="pub-title">Research Assistant · Xu Lab, Cincinnati Children's Hospital</div>
-                    <div class="pub-venue">Jan 2021 – Jan 2022 | Single-cell RNA-seq analysis</div>
-                    <ul><li>Applied MELD, ScVelo, CellRank, Seurat, Monocle for ACD and mouse lung development.</li></ul>
-                </div>
-                <div class="exp-item">
-                    <div class="pub-title">Research Assistant · Procter & Gamble Simulation Centre</div>
-                    <div class="pub-venue">Fall 2020 & 2023 | Advisor: Mark Maupin</div>
-                    <ul><li>Developed R/Shiny predictive models for microbial growth; molecular descriptors; image processing.</li></ul>
-                </div>
-                <div class="exp-item">
-                    <div class="pub-title">Faculty Summer Research Fellow · IIT Delhi</div>
-                    <div class="pub-venue">Jun–Jul 2017 | High Performance Computing (CUDA, OpenMP, MPI)</div>
-                </div>
-            </section>
+        <div class="pub-card">
+          <div class="pub-year-badge">2022</div>
+          <div class="pub-title">Persistence Homology of Proximity Hyper-Graphs for Higher Dimensional Big Data</div>
+          <div class="pub-authors"><strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE BigData 2022, pp. 65–74</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 7 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-            <!-- Teaching Experience -->
-            <section id="teaching" class="section">
-                <h2>Teaching & Mentorship</h2>
-                <div class="teaching-item">
-                    <div class="pub-title">Assistant Professor (Senior Grade) · UPES, Dehradun</div>
-                    <div class="pub-venue">Fall 2025 – Present</div>
-                    <ul><li>Algorithm Design & Analysis, Linux Lab, Data Structures, Statistics & Data Science.</li></ul>
-                </div>
-                <div class="teaching-item">
-                    <div class="pub-title">Teaching Faculty II · University of Wisconsin, Milwaukee</div>
-                    <div class="pub-venue">Fall 2024 – Apr 2025</div>
-                    <ul><li>Data Structures & Algorithms, Algorithm Design & Analysis, Scientific Data Visualization, Computer Graphics.</li></ul>
-                </div>
-                <div class="teaching-item">
-                    <div class="pub-title">Graduate Teaching Assistant · University of Cincinnati</div>
-                    <div class="pub-venue">2019–2023</div>
-                    <ul><li>Programming for ECE/CS, Operating Systems, ZyBooks course delivery.</li></ul>
-                </div>
-                <div class="teaching-item">
-                    <div class="pub-title">Lecturer · JIIT, Noida</div>
-                    <div class="pub-venue">Prior to 2019</div>
-                    <ul><li>Concurrent Programming, Geometric Combinatorics, Design of Algorithms, Operating Systems.</li></ul>
-                </div>
-            </section>
+        <!-- 2021 -->
+        <div class="pub-card">
+          <div class="pub-year-badge">2021</div>
+          <div class="pub-title">Distributed Computation of Persistent Homology from Partitioned Big Data</div>
+          <div class="pub-authors">NO Malott, RR Verma, <strong>RP Singh</strong>, PA Wilsey</div>
+          <div class="pub-venue">IEEE CLUSTER 2021, pp. 344–354</div>
+          <div class="pub-footer">
+            <span class="cite-badge"><i class="fas fa-quote-right"></i> 3 citations</span>
+            <a href="#" class="pub-btn">PDF</a><a href="#" class="pub-btn">DOI</a>
+          </div>
+        </div>
 
-            <!-- Awards & Honors -->
-            <section id="awards" class="section">
-                <h2>Awards & Honors</h2>
-                <div class="award-item"><div class="pub-title">IRiS Fellowship</div><div class="pub-venue">College of Arts and Sciences, UC (2023–24)</div></div>
-                <div class="award-item"><div class="pub-title">Herbold Fellowship</div><div class="pub-venue">University of Cincinnati (2021–22)</div></div>
-                <div class="award-item"><div class="pub-title">NSF Award Contribution</div><div class="pub-venue">SPAL3D – Type System for 3D Spatial Databases</div></div>
-                <div class="award-item"><div class="pub-title">Achievement Award</div><div class="pub-venue">University of Florida</div></div>
-            </section>
-        </main>
+        <!-- Dissertation -->
+        <div class="pub-card">
+          <div class="pub-year-badge">PhD Dissertation · 2024</div>
+          <div class="pub-title">Optimizing Topological Spaces for Scalable Persistent Homology Computations</div>
+          <div class="pub-authors"><strong>RP Singh</strong></div>
+          <div class="pub-venue">University of Cincinnati</div>
+          <div class="pub-footer">
+            <a href="#" class="pub-btn"><i class="fas fa-graduation-cap"></i> ProQuest</a>
+            <a href="#" class="pub-btn"><i class="fas fa-archive"></i> OhioLINK</a>
+          </div>
+        </div>
+      </section>
 
-        <!-- right sidebar -->
-        <aside>
-            <div class="sidebar-card">
-                <h3>Education</h3>
-                <p><strong>PhD Computer Science</strong><br>University of Cincinnati, 2019–2024<br>GPA 3.81/4<br>Certificate: Statistical Science & Quantum Computing</p>
-                <div class="divider-light"></div>
-                <p><strong>MS Computer Science</strong><br>University of Florida, 2011–2013<br>GPA 3.67/4</p>
-                <div class="divider-light"></div>
-                <p><strong>B.Tech CSE</strong><br>Jaypee University of Information Technology</p>
+      <!-- RESEARCH -->
+      <section id="research" class="section">
+        <div class="section-header">
+          <h2>Research Experience</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Graduate Research Assistant · University of Cincinnati</div>
+              <div class="tl-meta">Aug 2019 – Dec 2024 · Advisor: Prof. Philip A. Wilsey</div>
             </div>
-
-            <div class="sidebar-card">
-                <h3>Research Focus</h3>
-                <div class="interest-tag">Persistent Homology</div>
-                <div class="interest-tag">Topological Data Analysis</div>
-                <div class="interest-tag">High-Dimensional Data</div>
-                <div class="interest-tag">Parallel & Distributed Computing</div>
-                <div class="interest-tag">Computational Biology</div>
-                <div class="interest-tag">GPU/CUDA</div>
+            <ul class="tl-body">
+              <li>Distributed computation of persistent homology, sparsified topological spaces, polytopal complexes.</li>
+              <li>Optimized Delaunay triangulation and piecewise persistent homology computation.</li>
+              <li>Generated high-dimensional benchmark data for topological data analysis pipelines.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Research Assistant · Xu Lab, Cincinnati Children's Hospital</div>
+              <div class="tl-meta">Jan 2021 – Jan 2022 · Single-cell RNA-seq analysis</div>
             </div>
-
-            <div class="sidebar-card">
-                <h3>Technical Skills</h3>
-                <div class="skill-list">
-                    <span class="skill-badge">C++/C</span><span class="skill-badge">Python</span><span class="skill-badge">R/R-Shiny</span>
-                    <span class="skill-badge">CUDA</span><span class="skill-badge">OpenMP/MPI</span><span class="skill-badge">PySpark</span>
-                    <span class="skill-badge">Scanpy/Seurat</span><span class="skill-badge">Linux</span><span class="skill-badge">Git</span>
-                </div>
-                <div class="divider-light"></div>
-                <h3>Reviewer Service</h3>
-                <p style="font-size:0.8rem;">Journal of Parallel and Distributed Computing · Physica A · ACM TKDD</p>
+            <ul class="tl-body">
+              <li>Applied MELD, ScVelo, CellRank, Seurat, Monocle for ACD and mouse lung development analysis.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Research Assistant · Procter &amp; Gamble Simulation Centre</div>
+              <div class="tl-meta">Fall 2020 &amp; Fall 2023 · Advisor: Mark Maupin</div>
             </div>
-
-            <div class="sidebar-card">
-                <h3>Selected Projects</h3>
-                <ul style="font-size:0.8rem; margin-left:1rem;">
-                    <li>Compute-intensive VR framework (OpenMP/MPI/CUDA)</li>
-                    <li>Moving Object Database for 3D topology change</li>
-                    <li>Transfer learning for time series (ARIMA, R, Python)</li>
-                    <li>CNN interpretability with GradCAM & uncertainty</li>
-                    <li>Single-cell RNA-seq downstream analysis</li>
-                </ul>
+            <ul class="tl-body">
+              <li>Developed R/Shiny predictive models for microbial growth; molecular descriptors; image processing.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Faculty Summer Research Fellow · IIT Delhi</div>
+              <div class="tl-meta">Jun – Jul 2017 · High Performance Computing</div>
             </div>
+            <ul class="tl-body">
+              <li>CUDA, OpenMP, MPI parallelization of compute-intensive algorithms.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-            <div class="sidebar-card">
-                <h3>Community & Service</h3>
-                <p><i class="fas fa-chalkboard-teacher"></i> Committee Head, Joint Engineering Co-op Institute</p>
-                <p><i class="fas fa-laptop-code"></i> Technical team, makeup.io hackathon (IEEE)</p>
-                <p><i class="fas fa-microphone-alt"></i> Guest talk: "Data Science Beyond Clustering"</p>
+      <!-- TEACHING -->
+      <section id="teaching" class="section">
+        <div class="section-header">
+          <h2>Teaching &amp; Mentorship</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Assistant Professor (Senior Grade) · UPES, Dehradun</div>
+              <div class="tl-meta">Fall 2025 – Present</div>
             </div>
-        </aside>
-    </div>
+            <div class="tl-body">Algorithm Design &amp; Analysis · Linux Lab · Data Structures · Statistics &amp; Data Science</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Teaching Faculty II · University of Wisconsin, Milwaukee</div>
+              <div class="tl-meta">Fall 2024 – Apr 2025</div>
+            </div>
+            <div class="tl-body">Data Structures &amp; Algorithms · Algorithm Design &amp; Analysis · Scientific Data Visualization · Computer Graphics</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Graduate Teaching Assistant · University of Cincinnati</div>
+              <div class="tl-meta">2019 – 2023</div>
+            </div>
+            <div class="tl-body">Programming for ECE/CS · Operating Systems · ZyBooks course delivery</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-header">
+              <div class="tl-title">Lecturer · JIIT, Noida</div>
+              <div class="tl-meta">Prior to 2019</div>
+            </div>
+            <div class="tl-body">Concurrent Programming · Geometric Combinatorics · Design of Algorithms · Operating Systems</div>
+          </div>
+        </div>
+      </section>
 
-    <div class="footer">
-        <span>© 2025 Dr. Rohit P. Singh — All rights reserved. | Last updated April 2026</span><br>
-        <span style="font-size: 0.7rem;">Based on Google Scholar profile | Citations: 27+ (since 2021)</span>
-    </div>
+      <!-- AWARDS -->
+      <section id="awards" class="section">
+        <div class="section-header">
+          <h2>Awards &amp; Honors</h2>
+        </div>
+        <div class="award-grid">
+          <div class="award-card">
+            <div class="award-icon"><i class="fas fa-medal"></i></div>
+            <div>
+              <div class="award-name">IRiS Fellowship</div>
+              <div class="award-org">College of Arts &amp; Sciences, UC · 2023–24</div>
+            </div>
+          </div>
+          <div class="award-card">
+            <div class="award-icon"><i class="fas fa-award"></i></div>
+            <div>
+              <div class="award-name">Herbold Fellowship</div>
+              <div class="award-org">University of Cincinnati · 2021–22</div>
+            </div>
+          </div>
+          <div class="award-card">
+            <div class="award-icon"><i class="fas fa-flask"></i></div>
+            <div>
+              <div class="award-name">NSF Award Contribution</div>
+              <div class="award-org">SPAL3D – Type System for 3D Spatial Databases</div>
+            </div>
+          </div>
+          <div class="award-card">
+            <div class="award-icon"><i class="fas fa-star"></i></div>
+            <div>
+              <div class="award-name">Achievement Award</div>
+              <div class="award-org">University of Florida</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="side-col">
+      <div class="side-card">
+        <h3>Research Focus</h3>
+        <div>
+          <span class="tag">Persistent Homology</span>
+          <span class="tag">Topological Data Analysis</span>
+          <span class="tag">High-Dimensional Data</span>
+          <span class="tag">Parallel &amp; Distributed Computing</span>
+          <span class="tag">Computational Biology</span>
+          <span class="tag">GPU / CUDA</span>
+          <span class="tag">Simplicial Complexes</span>
+          <span class="tag">Hypergraph Theory</span>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Technical Skills</h3>
+        <div>
+          <span class="skill-pill">C++/C</span>
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">R / R-Shiny</span>
+          <span class="skill-pill">CUDA</span>
+          <span class="skill-pill">OpenMP</span>
+          <span class="skill-pill">MPI</span>
+          <span class="skill-pill">PySpark</span>
+          <span class="skill-pill">Scanpy</span>
+          <span class="skill-pill">Seurat</span>
+          <span class="skill-pill">Linux</span>
+          <span class="skill-pill">Git</span>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Reviewer</h3>
+        <div class="reviewer-item">Journal of Parallel &amp; Distributed Computing</div>
+        <div class="reviewer-item">Physica A</div>
+        <div class="reviewer-item">ACM TKDD</div>
+      </div>
+
+      <div class="side-card">
+        <h3>Selected Projects</h3>
+        <div class="reviewer-item">Compute-intensive VR framework (OpenMP/MPI/CUDA)</div>
+        <div class="reviewer-item">Moving Object Database for 3D topology change</div>
+        <div class="reviewer-item">Transfer learning for time series (ARIMA, R, Python)</div>
+        <div class="reviewer-item">CNN interpretability with GradCAM &amp; uncertainty</div>
+        <div class="reviewer-item">Single-cell RNA-seq downstream analysis</div>
+      </div>
+
+      <div class="side-card">
+        <h3>Service</h3>
+        <div class="reviewer-item">Committee Head, Joint Engineering Co-op Institute</div>
+        <div class="reviewer-item">Technical team, makeup.io hackathon (IEEE)</div>
+        <div class="reviewer-item">Guest talk: "Data Science Beyond Clustering"</div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>© 2025 <span class="teal">Dr. Rohit P. Singh</span> — All rights reserved.</span>
+    <span>Citations: <span class="teal">27+</span> since 2021 · Last updated April 2026</span>
+  </footer>
 </div>
 
-<!-- smooth anchor & placeholder links -->
+<!-- ══ CANVAS ANIMATION ══ -->
 <script>
-    document.querySelectorAll('.section-nav a').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
-            if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    });
-    document.querySelectorAll('.pub-links a').forEach(link => {
-        if(link.getAttribute('href') === '#') {
-            link.addEventListener('click', (e) => e.preventDefault());
+(function(){
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts, lines;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    init();
+  }
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+
+  function init(){
+    const N = Math.floor((W*H) / 22000);
+    pts = Array.from({length: N}, () => ({
+      x: rand(0,W), y: rand(0,H),
+      vx: rand(-0.25,0.25), vy: rand(-0.25,0.25),
+      r: rand(1.5,3)
+    }));
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const teal = '45,212,191';
+    const gold = '240,192,96';
+    const DIST = 160;
+
+    // Connect nearby points (simulate simplicial complex)
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[j].x-pts[i].x, dy=pts[j].y-pts[i].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<DIST){
+          const alpha = (1 - d/DIST) * 0.5;
+          ctx.beginPath();
+          ctx.strokeStyle=`rgba(${teal},${alpha})`;
+          ctx.lineWidth=0.8;
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.stroke();
+
+          // Fill triangles when 3 pts close
+          for(let k=j+1;k<pts.length;k++){
+            const dx2=pts[k].x-pts[i].x, dy2=pts[k].y-pts[i].y;
+            const dx3=pts[k].x-pts[j].x, dy3=pts[k].y-pts[j].y;
+            const d2=Math.sqrt(dx2*dx2+dy2*dy2);
+            const d3=Math.sqrt(dx3*dx3+dy3*dy3);
+            if(d2<DIST && d3<DIST){
+              const ta=(1-(d+d2+d3)/(DIST*3))*0.06;
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x,pts[i].y);
+              ctx.lineTo(pts[j].x,pts[j].y);
+              ctx.lineTo(pts[k].x,pts[k].y);
+              ctx.closePath();
+              ctx.fillStyle=`rgba(${teal},${ta})`;
+              ctx.fill();
+            }
+          }
         }
+      }
+    }
+
+    // Draw nodes
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${teal},0.7)`;
+      ctx.fill();
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
     });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();
+
+// Photo upload handler
+document.getElementById('photoInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const inner = document.getElementById('photoInner');
+    inner.innerHTML = `
+      <img src="${ev.target.result}" alt="Profile photo" />
+      <div class="photo-upload-hint" onclick="document.getElementById('photoInput').click()">
+        <i class="fas fa-camera"></i>Change Photo
+      </div>`;
+  };
+  reader.readAsDataURL(file);
+});
+
+// Smooth nav
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
 </script>
 </body>
 </html>
