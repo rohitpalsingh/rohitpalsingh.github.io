@@ -780,67 +780,98 @@
 
 /* Visitor counter + geo */
 (async function(){
-  // Animated number count-up
+
   function countUp(el, target) {
-    const dur = 1200, start = Date.now();
-    const from = 0;
-    function step() {
+    const dur = 1400, start = Date.now();
+    (function step() {
       const p = Math.min((Date.now()-start)/dur, 1);
       const ease = 1 - Math.pow(1-p, 3);
-      el.textContent = Math.floor(from + (target-from)*ease).toLocaleString();
+      el.textContent = Math.floor(target * ease).toLocaleString();
       if(p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+    })();
   }
 
-  // Country flag from ISO code
   function flag(code) {
-    if(!code) return '🌐';
-    return code.toUpperCase().replace(/./g, c =>
-      String.fromCodePoint(c.charCodeAt(0) + 127397));
+    if(!code || code.length !== 2) return '🌐';
+    return [...code.toUpperCase()].map(c =>
+      String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
   }
 
-  // Hit counter via counterapi.dev
+  const countEl = document.getElementById('visCount');
+
+  // --- VISIT COUNTER ---
+  // Use localStorage to always have a count; sync with remote API when possible
+  const VISIT_KEY = 'rps_total_visits_v2';
+  let localCount = parseInt(localStorage.getItem(VISIT_KEY) || '0') + 1;
+  localStorage.setItem(VISIT_KEY, localCount);
+  countUp(countEl, localCount); // show immediately
+
+  // Try remote counter — api.counterapi.dev
   try {
-    const r = await fetch('https://api.counterapi.dev/v1/rohit-psingh-portfolio/visits/up');
-    const d = await r.json();
-    if(d && d.count) countUp(document.getElementById('visCount'), d.count);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+    const r = await fetch(
+      'https://api.counterapi.dev/v1/rohitpsingh/portfolio/up',
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+    if (r.ok) {
+      const d = await r.json();
+      const remoteCount = d.count || d.value || localCount;
+      // Sync local to remote if remote is higher
+      if (remoteCount > localCount) {
+        localStorage.setItem(VISIT_KEY, remoteCount);
+      }
+      countUp(countEl, Math.max(remoteCount, localCount));
+    } else {
+      throw new Error('non-ok');
+    }
   } catch(e) {
-    document.getElementById('visCount').textContent = '—';
+    // Silently stay on local count — already displayed
   }
 
-  // Geo lookup via ipapi.co
+  // --- GEO DETECT ---
+  const KEY_COUNTRIES = 'rps_countries_v2';
+  let countries = [];
+  try { countries = JSON.parse(localStorage.getItem(KEY_COUNTRIES) || '[]'); } catch(_){}
+
   try {
-    const r = await fetch('https://ipapi.co/json/');
-    const d = await r.json();
-    const country = d.country_name || 'Unknown';
-    const city    = d.city || '';
-    const code    = d.country_code || '';
+    const controller2 = new AbortController();
+    const timeout2 = setTimeout(() => controller2.abort(), 5000);
+    const r2 = await fetch('https://ipapi.co/json/', { signal: controller2.signal });
+    clearTimeout(timeout2);
+    if (!r2.ok) throw new Error('geo fail');
+    const d2 = await r2.json();
+
+    const code    = (d2.country_code || '').toUpperCase();
+    const country = d2.country_name  || 'Unknown';
+    const city    = d2.city          || '';
+
     document.getElementById('visFlag').textContent    = flag(code);
     document.getElementById('visCountry').textContent = country;
     document.getElementById('visCity').textContent    = city;
 
-    // Store country history in localStorage
-    const KEY = 'rps_visitor_countries';
-    let history = [];
-    try { history = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){}
-    const entry = code ? { code, country } : null;
-    if(entry && !history.find(h => h.code === code)) {
-      history.unshift(entry);
-      if(history.length > 12) history = history.slice(0, 12);
-      try { localStorage.setItem(KEY, JSON.stringify(history)); } catch(e){}
+    // Update country history
+    if (code && !countries.find(c => c.code === code)) {
+      countries.unshift({ code, country });
+      if (countries.length > 14) countries = countries.slice(0, 14);
+      localStorage.setItem(KEY_COUNTRIES, JSON.stringify(countries));
     }
-    // Render country tags
-    const wrap = document.getElementById('visCountries');
-    history.forEach(h => {
-      const el = document.createElement('span');
-      el.className = 'rp-vis-ctag';
-      el.textContent = flag(h.code) + ' ' + h.country;
-      wrap.appendChild(el);
-    });
   } catch(e) {
-    document.getElementById('visCountry').textContent = 'Unavailable';
+    document.getElementById('visCountry').textContent = 'Location unavailable';
+    document.getElementById('visCity').textContent    = '';
   }
+
+  // Render country tags
+  const wrap = document.getElementById('visCountries');
+  wrap.innerHTML = '';
+  countries.forEach(h => {
+    const el = document.createElement('span');
+    el.className = 'rp-vis-ctag';
+    el.textContent = flag(h.code) + ' ' + h.country;
+    wrap.appendChild(el);
+  });
+
 })();
 
 /* Page switcher */
