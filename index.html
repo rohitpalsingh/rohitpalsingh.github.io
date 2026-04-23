@@ -778,15 +778,29 @@
   window.addEventListener('resize',resize);resize();draw();
 })();
 
-/* Visitor counter + geo */
+/* ═══════════════════════════════════════════════════
+   VISITOR TRACKER  —  uses JSONBin.io (free, no server)
+   SETUP (one-time, takes 2 minutes):
+     1. Sign up free at https://jsonbin.io
+     2. Go to API Keys → copy your Master Key
+     3. Click "Create Bin", paste this as content:
+           {"total":0,"countries":{}}
+        Set it to Public. Copy the Bin ID from the URL.
+     4. Replace JSONBIN_KEY and JSONBIN_BIN below.
+   ═══════════════════════════════════════════════════ */
 (async function(){
 
+  const JSONBIN_KEY = '$2a$10$S./K5yQzBBsxwnlS1rvtSOhDwt6g0VaLEqrQAe9Y0sXkOR0Sz5oKW'; // Master Key
+  const JSONBIN_BIN = '69e9e77436566621a8e25ac0'; // Bin ID
+  const CONFIGURED  = !JSONBIN_KEY.startsWith('YOUR');
+
+  /* ── helpers ── */
   function countUp(el, target) {
+    if (!target) { el.textContent = '—'; return; }
     const dur = 1400, start = Date.now();
     (function step() {
       const p = Math.min((Date.now()-start)/dur, 1);
-      const ease = 1 - Math.pow(1-p, 3);
-      el.textContent = Math.floor(target * ease).toLocaleString();
+      el.textContent = Math.floor(target*(1-Math.pow(1-p,3))).toLocaleString();
       if(p < 1) requestAnimationFrame(step);
     })();
   }
@@ -794,83 +808,107 @@
   function flag(code) {
     if(!code || code.length !== 2) return '🌐';
     return [...code.toUpperCase()].map(c =>
-      String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
+      String.fromCodePoint(c.charCodeAt(0)+127397)).join('');
+  }
+
+  function renderCountries(countries) {
+    const wrap = document.getElementById('visCountries');
+    wrap.innerHTML = '';
+    // Sort by visit count descending
+    Object.entries(countries)
+      .sort((a,b) => b[1].count - a[1].count)
+      .forEach(([code, info]) => {
+        const el = document.createElement('span');
+        el.className = 'rp-vis-ctag';
+        el.title = `${info.count} visit${info.count>1?'s':''}`;
+        el.textContent = flag(code) + ' ' + info.name;
+        wrap.appendChild(el);
+      });
   }
 
   const countEl = document.getElementById('visCount');
 
-  // --- VISIT COUNTER ---
-  // Use localStorage to always have a count; sync with remote API when possible
-  const VISIT_KEY = 'rps_total_visits_v2';
-  let localCount = parseInt(localStorage.getItem(VISIT_KEY) || '0') + 1;
-  localStorage.setItem(VISIT_KEY, localCount);
-  countUp(countEl, localCount); // show immediately
-
-  // Try remote counter — api.counterapi.dev
+  /* ── Step 1: detect visitor location ── */
+  let visitorCode = '', visitorCountry = '', visitorCity = '';
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 4000);
-    const r = await fetch(
-      'https://api.counterapi.dev/v1/rohitpsingh/portfolio/up',
-      { signal: controller.signal }
-    );
-    clearTimeout(timeout);
-    if (r.ok) {
-      const d = await r.json();
-      const remoteCount = d.count || d.value || localCount;
-      // Sync local to remote if remote is higher
-      if (remoteCount > localCount) {
-        localStorage.setItem(VISIT_KEY, remoteCount);
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 5000);
+    const rg = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+    if (rg.ok) {
+      const dg = await rg.json();
+      visitorCode    = (dg.country_code || '').toUpperCase();
+      visitorCountry = dg.country_name  || 'Unknown';
+      visitorCity    = dg.city          || '';
+    }
+  } catch(_) {}
+
+  document.getElementById('visFlag').textContent    = flag(visitorCode);
+  document.getElementById('visCountry').textContent = visitorCountry || 'Detecting…';
+  document.getElementById('visCity').textContent    = visitorCity;
+
+  /* ── Step 2: read + update JSONBin ── */
+  if (CONFIGURED) {
+    const BASE    = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`;
+    const HEADERS = { 'X-Master-Key': JSONBIN_KEY, 'Content-Type': 'application/json' };
+
+    try {
+      // Read current data
+      const rRead = await fetch(BASE + '/latest', { headers: HEADERS });
+      if (!rRead.ok) throw new Error('read failed');
+      const { record } = await rRead.json();
+
+      let data = record || { total: 0, countries: {} };
+      data.total = (data.total || 0) + 1;
+
+      // Update this visitor's country
+      if (visitorCode) {
+        if (!data.countries[visitorCode]) {
+          data.countries[visitorCode] = { name: visitorCountry, count: 0 };
+        }
+        data.countries[visitorCode].count += 1;
+        // Keep name fresh
+        data.countries[visitorCode].name = visitorCountry;
       }
-      countUp(countEl, Math.max(remoteCount, localCount));
-    } else {
-      throw new Error('non-ok');
+
+      // Show updated total
+      countUp(countEl, data.total);
+      renderCountries(data.countries);
+
+      // Write back (fire-and-forget)
+      fetch(BASE, {
+        method: 'PUT',
+        headers: HEADERS,
+        body: JSON.stringify(data)
+      }).catch(() => {});
+
+    } catch(e) {
+      countEl.textContent = 'Setup needed';
+      document.getElementById('visCountries').innerHTML =
+        '<span class="rp-vis-ctag" style="color:var(--gold)">⚙ See code comments</span>';
     }
-  } catch(e) {
-    // Silently stay on local count — already displayed
-  }
 
-  // --- GEO DETECT ---
-  const KEY_COUNTRIES = 'rps_countries_v2';
-  let countries = [];
-  try { countries = JSON.parse(localStorage.getItem(KEY_COUNTRIES) || '[]'); } catch(_){}
-
-  try {
-    const controller2 = new AbortController();
-    const timeout2 = setTimeout(() => controller2.abort(), 5000);
-    const r2 = await fetch('https://ipapi.co/json/', { signal: controller2.signal });
-    clearTimeout(timeout2);
-    if (!r2.ok) throw new Error('geo fail');
-    const d2 = await r2.json();
-
-    const code    = (d2.country_code || '').toUpperCase();
-    const country = d2.country_name  || 'Unknown';
-    const city    = d2.city          || '';
-
-    document.getElementById('visFlag').textContent    = flag(code);
-    document.getElementById('visCountry').textContent = country;
-    document.getElementById('visCity').textContent    = city;
-
-    // Update country history
-    if (code && !countries.find(c => c.code === code)) {
-      countries.unshift({ code, country });
-      if (countries.length > 14) countries = countries.slice(0, 14);
-      localStorage.setItem(KEY_COUNTRIES, JSON.stringify(countries));
+  } else {
+    /* ── Fallback: localStorage (per-browser demo mode) ── */
+    const LK = 'rps_v3';
+    let ld = {}; try { ld = JSON.parse(localStorage.getItem(LK)||'{}'); } catch(_){}
+    ld.total = (ld.total||0)+1;
+    ld.countries = ld.countries||{};
+    if (visitorCode) {
+      if (!ld.countries[visitorCode]) ld.countries[visitorCode]={name:visitorCountry,count:0};
+      ld.countries[visitorCode].count += 1;
+      ld.countries[visitorCode].name = visitorCountry;
     }
-  } catch(e) {
-    document.getElementById('visCountry').textContent = 'Location unavailable';
-    document.getElementById('visCity').textContent    = '';
-  }
+    try { localStorage.setItem(LK, JSON.stringify(ld)); } catch(_){}
+    countUp(countEl, ld.total);
+    renderCountries(ld.countries);
 
-  // Render country tags
-  const wrap = document.getElementById('visCountries');
-  wrap.innerHTML = '';
-  countries.forEach(h => {
-    const el = document.createElement('span');
-    el.className = 'rp-vis-ctag';
-    el.textContent = flag(h.code) + ' ' + h.country;
-    wrap.appendChild(el);
-  });
+    // Show setup prompt subtly
+    const note = document.createElement('span');
+    note.className = 'rp-vis-ctag';
+    note.style.cssText = 'color:var(--gold);border-color:var(--gold);width:100%;text-align:center;';
+    note.textContent = '⚙ Configure JSONBin for live tracking';
+    document.getElementById('visCountries').prepend(note);
+  }
 
 })();
 
