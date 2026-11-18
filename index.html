@@ -6,9 +6,35 @@
 <title>Dr. Rohit P. Singh · Topological Data Analysis</title>
 <meta name="description" content="Rohit Pal Singh, Assistant Professor at JUIT Waknaghat. Research in topological data analysis, persistent homology, simplicial and polytopal complexes, and scalable topological computation.">
 <meta name="theme-color" content="#0f1720">
+<link rel="canonical" href="https://rohitpalsingh.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dr. Rohit P. Singh · Topological Data Analysis">
+<meta property="og:description" content="Assistant Professor at JUIT Waknaghat. Persistent homology, simplicial and polytopal complexes, and scalable topological computation.">
+<meta property="og:url" content="https://rohitpalsingh.github.io/">
+<meta property="og:image" content="https://rohitpalsingh.github.io/IMG_20221213_151351522_HDR.jpg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Rohit Pal Singh",
+  "honorificPrefix": "Dr.",
+  "url": "https://rohitpalsingh.github.io/",
+  "image": "https://rohitpalsingh.github.io/IMG_20221213_151351522_HDR.jpg",
+  "jobTitle": "Assistant Professor (Senior Grade)",
+  "worksFor": {"@type": "CollegeOrUniversity", "name": "Jaypee University of Information Technology, Waknaghat"},
+  "alumniOf": [
+    {"@type": "CollegeOrUniversity", "name": "University of Cincinnati"},
+    {"@type": "CollegeOrUniversity", "name": "University of Florida"},
+    {"@type": "CollegeOrUniversity", "name": "Jaypee University of Information Technology"}
+  ],
+  "knowsAbout": ["Topological data analysis", "Persistent homology", "Simplicial complexes", "Polytopal complexes", "Discrete Morse theory", "Discrete geometry"],
+  "sameAs": ["https://scholar.google.com/citations?user=QcZT6xUAAAAJ&hl=en", "https://orcid.org/0000-0003-2872-1232", "https://github.com/rohitpalsingh", "https://dblp.org/pid/303/8007.html"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fbfaf7; --bg2:#f3f1ea; --card:#ffffff; --ink:#16202a; --mute:#5b6773; --line:#e4e0d6;
@@ -31,6 +57,10 @@ body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--sans);-webki
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:12px;top:-60px;z-index:30;background:var(--accent);color:var(--bg);padding:8px 14px;border-radius:8px;font-weight:500}
+.skip:focus{top:10px;text-decoration:none}
+.more{display:inline-block;margin-top:12px;font:500 12px var(--mono)}
 
 /* nav */
 nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -122,8 +152,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav>
+<nav aria-label="Primary">
   <div class="wrap">
     <a class="brand" href="#top">Rohit P. Singh</a>
     <div class="links" id="links">
@@ -133,11 +164,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <a href="#teaching">Teaching</a>
       <a href="#honors">Honors</a>
       <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
     </div>
-    <button id="theme" aria-label="Toggle color theme" title="Toggle theme">◐</button>
+    <button id="theme" type="button" aria-label="Toggle dark theme" aria-pressed="false" title="Toggle theme">◐</button>
   </div>
 </nav>
 
+<main id="main">
 <header class="hero" id="top">
   <canvas id="field" aria-hidden="true"></canvas>
   <div class="wrap">
@@ -149,7 +182,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="cta">
         <a class="btn primary" href="#publications">Read the papers</a>
         <a class="btn" href="https://scholar.google.com/citations?user=QcZT6xUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
-        <a class="btn" href="https://etd.ohiolink.edu/acprod/odb_etd/etd/r/1501/10?clear=10&p10_accession_num=ucin1733841637247119" target="_blank" rel="noopener">Ph.D. thesis ↗</a>
+        <a class="btn" href="https://etd.ohiolink.edu/acprod/odb_etd/etd/r/1501/10?clear=10&amp;p10_accession_num=ucin1733841637247119" target="_blank" rel="noopener">Ph.D. thesis ↗</a>
+        <a class="btn" href="Rohit_Pal_Singh_CV.pdf" target="_blank" rel="noopener">CV (PDF) ↗</a>
       </div>
       <div class="stats">
         <div class="stat"><b>9</b><span>Papers</span></div>
@@ -165,9 +199,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <div class="sh rv"><h2>Research</h2><small>Topology meets scalable computing</small></div>
     <div class="grid g3 rv">
-      <div class="card"><h3>Persistent homology at scale</h3><p>Distributed and piecewise computation of persistent homology, and compact boundary matrices that make large filtrations practical.</p></div>
-      <div class="card"><h3>Sparsified and polytopal complexes</h3><p>Constructing smaller topological spaces, including β-sparsified hypergraph-based simplicial complexes and polytopal complexes, that preserve the structure that matters.</p></div>
-      <div class="card"><h3>Geometry and benchmarks</h3><p>Resource-efficient Delaunay triangulation in higher dimensions, and test-data generators for evaluating topological data analysis pipelines.</p></div>
+      <div class="card"><h3>Persistent homology at scale</h3><p>Distributed and piecewise computation of persistent homology, and compact boundary matrices that make large filtrations practical.</p><a class="more" href="https://doi.org/10.1109/BigData62323.2024.10825374" target="_blank" rel="noopener">Representative paper ↗</a></div>
+      <div class="card"><h3>Sparsified and polytopal complexes</h3><p>Constructing smaller topological spaces, including β-sparsified hypergraph-based simplicial complexes and polytopal complexes, that preserve the structure that matters.</p><a class="more" href="https://doi.org/10.3390/math14081339" target="_blank" rel="noopener">Representative paper ↗</a></div>
+      <div class="card"><h3>Geometry and benchmarks</h3><p>Resource-efficient Delaunay triangulation in higher dimensions, and test-data generators for evaluating topological data analysis pipelines.</p><a class="more" href="https://doi.org/10.1109/ICDMW65004.2024.00050" target="_blank" rel="noopener">Representative paper ↗</a></div>
     </div>
     <div class="grid g2" style="margin-top:18px">
       <div class="rv">
@@ -179,20 +213,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="rv">
         <p class="label">Technical skills</p>
         <div class="tags">
-          <span class="tag plain">C / C++</span><span class="tag plain">Python</span><span class="tag plain">R / R-Shiny</span><span class="tag plain">CUDA</span><span class="tag plain">OpenMP</span><span class="tag plain">MPI</span><span class="tag plain">PySpark</span><span class="tag plain">Scanpy</span><span class="tag plain">Seurat</span><span class="tag plain">Linux</span><span class="tag plain">Git</span>
+          <span class="tag plain">C / C++</span><span class="tag plain">Java</span><span class="tag plain">Python</span><span class="tag plain">R / R-Shiny</span><span class="tag plain">CUDA</span><span class="tag plain">OpenMP</span><span class="tag plain">MPI</span><span class="tag plain">PySpark</span><span class="tag plain">SQL</span><span class="tag plain">Scanpy</span><span class="tag plain">Seurat</span><span class="tag plain">Linux</span><span class="tag plain">Git</span>
         </div>
       </div>
     </div>
     <div class="grid g2" style="margin-top:28px">
       <div class="card rv"><p class="label">Reviewer for</p><p>Journal of Parallel &amp; Distributed Computing<br>Physica A<br>ACM Transactions on Knowledge Discovery from Data</p></div>
-      <div class="card rv"><p class="label">Service</p><p>Committee Head, Joint Engineering Co-op Institute<br>Technical team, makeup.io hackathon (IEEE)<br>Guest talk: “Data Science Beyond Clustering”</p></div>
+      <div class="card rv"><p class="label">Service</p><p>Committee Head, Joint Engineering Co-op Institute<br>Technical team, makeuc.io hackathon (IEEE)<br>Faculty coordinator, Cybersrishti technical festival, JIIT<br>Guest talk: “Data Science Beyond Clustering”</p></div>
     </div>
   </div>
 </section>
 
 <section id="publications">
   <div class="wrap">
-    <div class="sh rv"><h2>Publications</h2><small>9 works · 30 citations · <a href="https://scholar.google.com/citations?user=QcZT6xUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></small></div>
+    <div class="sh rv"><h2>Publications</h2><small>9 works · 30 citations (per Google Scholar) · <a href="https://scholar.google.com/citations?user=QcZT6xUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></small></div>
     <div class="filters rv" id="filters" role="group" aria-label="Filter by year">
       <button class="chip" data-y="all" aria-pressed="true">All</button>
       <button class="chip" data-y="2026" aria-pressed="false">2026</button>
@@ -201,14 +235,48 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <button class="chip" data-y="2022" aria-pressed="false">2022</button>
       <button class="chip" data-y="2021" aria-pressed="false">2021</button>
     </div>
-    <div id="pubs" class="rv"></div>
+    <div id="pubs" class="rv" aria-live="polite"><div class="pub"><div class="yr">2026</div><div>
+      <h3>Topological Study of β-Sparsified d-Uniform Hypergraph-Based Simplicial Complexes</h3><div class="auth"><b>RP Singh</b>, NO Malott, R Rafeek, PA Wilsey</div><div class="venue">Mathematics, 2026</div>
+      <div class="meta"><a href="https://www.mdpi.com/2227-7390/14/8/1339" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.3390/math14081339" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">2 citations</span></div></div></div><div class="pub"><div class="yr">2024</div><div>
+      <h3>Resource Efficient Delaunay Triangulation for Higher Dimensional Topological Studies</h3><div class="auth">A Yadav, <b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE ICDMW 2024, pp. 341–348</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/document/10917453" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/ICDMW65004.2024.00050" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">2 citations</span></div></div></div><div class="pub"><div class="yr">2024</div><div>
+      <h3>Piecewise Computation of Persistent Homology</h3><div class="auth"><b>RP Singh</b>, NO Malott, PA Wilsey</div><div class="venue">IEEE BigData 2024, pp. 2721–2730</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/document/10825374" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/BigData62323.2024.10825374" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">1 citation</span></div></div></div><div class="pub"><div class="yr">2024</div><div>
+      <h3>Constructing ε-Constrained Sparsified βs-Complexes using Space Partitioning Trees</h3><div class="auth"><b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE ICDM 2024, pp. 845–850</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/document/10884267" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/ICDM59182.2024.00103" target="_blank" rel="noopener">DOI</a>
+      </div></div></div><div class="pub"><div class="yr">2023</div><div>
+      <h3>Generating High Dimensional Test Data for Topological Data Analysis</h3><div class="auth"><b>RP Singh</b>, NO Malott, B Sauerwein, N Mcgrogan, PA Wilsey</div><div class="venue">Int. Symposium on Benchmarking, Measuring and Optimization (Bench), pp. 18–37</div>
+      <div class="meta"><a href="https://link.springer.com/chapter/10.1007/978-981-97-0316-6_2" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1007/978-981-97-0316-6_2" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">4 citations</span></div></div></div><div class="pub"><div class="yr">2023</div><div>
+      <h3>Compact Boundary Matrix from a Polytopal Complex for Computing Persistent Homology</h3><div class="auth"><b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE BigData 2023, pp. 76–85</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/document/10386348" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/BigData59044.2023.10386348" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">1 citation</span></div></div></div><div class="pub"><div class="yr">2022</div><div>
+      <h3>Polytopal Complex Construction and Use in Persistent Homology</h3><div class="auth"><b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE ICDMW 2022, pp. 634–641</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/abstract/document/10031030" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/ICDMW58026.2022.00087" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">9 citations</span></div></div></div><div class="pub"><div class="yr">2022</div><div>
+      <h3>Persistence Homology of Proximity Hyper-Graphs for Higher Dimensional Big Data</h3><div class="auth"><b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE BigData 2022, pp. 65–74</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/document/10020926" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/BigData55660.2022.10020926" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">7 citations</span></div></div></div><div class="pub"><div class="yr">2021</div><div>
+      <h3>Distributed Computation of Persistent Homology from Partitioned Big Data</h3><div class="auth">NO Malott, RR Verma, <b>RP Singh</b>, PA Wilsey</div><div class="venue">IEEE CLUSTER 2021, pp. 344–354</div>
+      <div class="meta"><a href="https://ieeexplore.ieee.org/abstract/document/9556009" target="_blank" rel="noopener">PDF</a><a href="https://doi.org/10.1109/Cluster48925.2021.00050" target="_blank" rel="noopener">DOI</a>
+      <span class="cite">3 citations</span></div></div></div></div>
+    <div class="pub rv" style="border-top:1px solid var(--line)">
+      <div class="yr">In prep.</div>
+      <div>
+        <h3>A Survey of Optimization Methods for Topological Complexes in the Computation of Persistent Homology</h3>
+        <div class="venue">IEEE Transactions on Knowledge and Data Engineering (in progress)</div>
+      </div>
+    </div>
     <div class="thesis rv">
       <p class="label">Ph.D. dissertation · 2024</p>
       <h3 style="font:600 18px var(--serif);margin-bottom:4px">Optimizing Topological Spaces for Scalable Persistent Homology Computations</h3>
       <p class="auth">University of Cincinnati · Advisor: Prof. Philip A. Wilsey</p>
       <div class="meta">
-        <a href="https://www.proquest.com/openview/9a88586b17c9e7a47286ad640b4f5029/1?pq-origsite=gscholar&cbl=18750&diss=y" target="_blank" rel="noopener">ProQuest</a>
-        <a href="https://etd.ohiolink.edu/acprod/odb_etd/etd/r/1501/10?clear=10&p10_accession_num=ucin1733841637247119" target="_blank" rel="noopener">OhioLINK</a>
+        <a href="https://www.proquest.com/openview/9a88586b17c9e7a47286ad640b4f5029/1?pq-origsite=gscholar&amp;cbl=18750&amp;diss=y" target="_blank" rel="noopener">ProQuest</a>
+        <a href="https://etd.ohiolink.edu/acprod/odb_etd/etd/r/1501/10?clear=10&amp;p10_accession_num=ucin1733841637247119" target="_blank" rel="noopener">OhioLINK</a>
         <span class="cite">1 citation</span>
       </div>
     </div>
@@ -217,7 +285,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="experience">
   <div class="wrap">
-    <div class="sh rv"><h2>Research experience</h2><small>4 positions</small></div>
+    <div class="sh rv"><h2>Research experience</h2><small>5 positions</small></div>
     <div class="tl rv">
       <article>
         <h3>Graduate Research Assistant · University of Cincinnati</h3>
@@ -243,22 +311,27 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div class="when">Jun – Jul 2017 · High performance computing</div>
         <ul><li>CUDA, OpenMP, and MPI parallelization of compute-intensive algorithms.</li></ul>
       </article>
+      <article>
+        <h3>Graduate Research Assistant · University of Florida</h3>
+        <div class="when">May 2012 – Mar 2013 · Advisor: Dr. Markus Schneider</div>
+        <ul><li>Efficient algorithms for digital contour extraction of iso-intensity regions from multi-intensity 2D grids, with a generic linked-list implementation for region data types.</li></ul>
+      </article>
     </div>
   </div>
 </section>
 
 <section id="teaching">
   <div class="wrap">
-    <div class="sh rv"><h2>Teaching</h2><small>Four institutions</small></div>
+    <div class="sh rv"><h2>Teaching</h2><small>Five institutions</small></div>
     <div class="tl rv">
       <article>
         <h3>Assistant Professor (Senior Grade) · JUIT, Waknaghat</h3>
-        <div class="when">Present</div>
-        <ul><li>Design and Analysis of Algorithms · Statistics &amp; Data Science</li></ul>
+        <div class="when">Jul 2026 – Present</div>
+        <ul><li>Data Structures · Object-Oriented Programming in Java · Optimizations in Machine Learning · Design and Analysis of Algorithms · Statistics &amp; Data Science</li></ul>
       </article>
       <article>
         <h3>Assistant Professor (Selection Grade) · UPES, Dehradun</h3>
-        <div class="when">2025</div>
+        <div class="when">Jul 2025 – Jul 2026</div>
         <ul><li>Algorithm Design &amp; Analysis · Linux Lab · Data Structures · Statistics &amp; Data Science</li></ul>
       </article>
       <article>
@@ -269,11 +342,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <article>
         <h3>Graduate Teaching Assistant · University of Cincinnati</h3>
         <div class="when">2019 – 2023</div>
-        <ul><li>Programming for ECE/CS · Operating Systems · zyBooks course delivery</li></ul>
+        <ul>
+          <li>Programming for ECE/CS · Operating Systems · zyBooks course delivery</li>
+          <li>Graduate Assistant, UC Libraries: Julia and Swift programming workshops (Summer 2022)</li>
+        </ul>
       </article>
       <article>
         <h3>Lecturer · JIIT, Noida</h3>
-        <div class="when">Before 2019</div>
+        <div class="when">Jul 2013 – 2019</div>
         <ul><li>Concurrent Programming · Geometric Combinatorics · Design of Algorithms · Operating Systems</li></ul>
       </article>
     </div>
@@ -287,7 +363,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="card"><h3>IRiS Fellowship</h3><p>College of Arts &amp; Sciences, University of Cincinnati · 2023–24</p></div>
       <div class="card"><h3>Herbold Fellowship</h3><p>University of Cincinnati · 2021–22</p></div>
       <div class="card"><h3>NSF award contribution</h3><p>SPAL3D: A type system for 3D spatial databases</p></div>
-      <div class="card"><h3>Achievement Award</h3><p>University of Florida</p></div>
+      <div class="card"><h3>Achievement Award</h3><p>University of Florida · 2011</p></div>
     </div>
   </div>
 </section>
@@ -298,7 +374,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="tl rv">
       <article>
         <h3>Ph.D., Computer Science · University of Cincinnati</h3>
-        <div class="when">2019 – 2024 · GPA 3.81 · Statistical Sciences &amp; Quantum Computing</div>
+        <div class="when">2019 – 2024 · GPA 3.81 · Graduate Certificate in Statistical Science</div>
       </article>
       <article>
         <h3>M.S., Computer Science · University of Florida</h3>
@@ -306,11 +382,24 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </article>
       <article>
         <h3>B.Tech, Computer Science &amp; Engineering · Jaypee University of Information Technology</h3>
-        <div class="when">Undergraduate</div>
+        <div class="when">2007 – 2011 · GPA 8.3/10</div>
       </article>
     </div>
   </div>
 </section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sh rv"><h2>Contact</h2><small>Collaborations and student enquiries welcome</small></div>
+    <div class="grid g2 rv">
+      <div class="card"><p class="label">Email</p><p><a href="mailto:rohitpal.singh@juitsolan.in">rohitpal.singh@juitsolan.in</a></p></div>
+      <div class="card"><p class="label">Address</p><p>Department of Computer Science &amp; Engineering<br>Jaypee University of Information Technology<br>Waknaghat, Solan, Himachal Pradesh 173234, India</p></div>
+      <div class="card"><p class="label">Research profiles</p><p><a href="https://orcid.org/0000-0003-2872-1232" target="_blank" rel="noopener">ORCID: 0000-0003-2872-1232 ↗</a><br><a href="https://scholar.google.com/citations?user=QcZT6xUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a><br><a href="https://github.com/rohitpalsingh" target="_blank" rel="noopener">GitHub: rohitpalsingh ↗</a><br><a href="https://dblp.org/pid/303/8007.html" target="_blank" rel="noopener">DBLP ↗</a></p></div>
+      <div class="card"><p class="label">Curriculum vitae</p><p><a href="Rohit_Pal_Singh_CV.pdf" target="_blank" rel="noopener">Download CV (PDF)</a><br>Last updated November 2026</p></div>
+    </div>
+  </div>
+</section>
+</main>
 
 <footer>
   <div class="wrap">
@@ -354,8 +443,10 @@ document.getElementById('theme').addEventListener('click',()=>{
   const dark=getComputedStyle(root).getPropertyValue('--bg').trim()==='#0f1720';
   const next=dark?'light':'dark'; root.dataset.theme=next;
   try{localStorage.setItem('theme',next);}catch(e){}
+  document.getElementById('theme').setAttribute('aria-pressed',next==='dark');
   tint();
 });
+document.getElementById('theme').setAttribute('aria-pressed',getComputedStyle(root).getPropertyValue('--bg').trim()==='#0f1720');
 
 /* ---------- reveal + active nav ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
